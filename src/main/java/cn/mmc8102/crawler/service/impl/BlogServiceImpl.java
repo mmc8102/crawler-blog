@@ -5,10 +5,10 @@ import cn.mmc8102.crawler.mapper.BlogMapper;
 import cn.mmc8102.crawler.query.PageResult;
 import cn.mmc8102.crawler.query.QueryObject;
 import cn.mmc8102.crawler.service.IBlogService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,10 +22,13 @@ public class BlogServiceImpl implements IBlogService {
     @Override
     public int add(Blog blog) {
         //根据url和发布时间查询数据
-        Blog info = blogMapper.queryByUrlAndTime(blog.getUrl(), blog.getUpdateTime());
+        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
+        wrapper.eq("url", blog.getUrl())
+                .eq("update_time", blog.getUpdateTime());
+        Blog info = blogMapper.selectOne(wrapper);
         //判断info是否为空,为空就新增,不为空就更新
         if(info != null){
-            return blogMapper.updateByPrimaryKey(blog);
+            return blogMapper.updateById(blog);
         }else{
             return blogMapper.insert(blog);
         }
@@ -33,16 +36,16 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public Blog getById(Long id) {
-        return blogMapper.selectByPrimaryKey(id);
+        return blogMapper.queryById(id);
     }
 
     @Override
     public PageResult query(QueryObject qo) {
-        Long count = blogMapper.queryForCount(qo);
-        if(count == 0){
-            return new PageResult(0, Collections.EMPTY_LIST);
+        int count = blogMapper.queryForCount(qo);
+        if(count > 0){
+            List<Blog> list = blogMapper.queryForList(qo);
+            return new PageResult(list, count, qo.getCurrentPage(),qo.getPageSize());
         }
-        List<Blog> list = blogMapper.queryForList(qo);
-        return new PageResult(count.intValue(), list);
+        return PageResult.empty(qo.getPageSize());
     }
 }

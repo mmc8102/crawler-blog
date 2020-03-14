@@ -1,8 +1,11 @@
 package cn.mmc8102.crawler.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author mmc
@@ -10,6 +13,12 @@ import java.util.Date;
  */
 @Data
 public class Blog {
+    /**
+     * 博客发布状态 1:发布 0:未发布
+     */
+    public static final int STATUS_PUBLISH = 1;
+    public static final int STATUS_NOT_PUBLISH = 0;
+
     private Long id;
 
     /**
@@ -23,9 +32,9 @@ public class Blog {
     private String content;
 
     /**
-     * 作者
+     * 摘要
      */
-    private String author;
+    private String summary;
 
     /**
      * 文章来源url
@@ -33,14 +42,39 @@ public class Blog {
     private String url;
 
     /**
-     * 图片
+     * 博客类型
      */
-    private String pic;
+    @TableField(exist = false)
+    private BlogType blogType;
+
+    /**
+     * 博客类型
+     */
+    private BlogType typeId;
 
     /**
      * 阅读量
      */
-    private Integer reading;
+    private Integer readCount;
+
+    /**
+     * 评论量
+     */
+    private Integer replyCount;
+
+    /**
+     * 博客发布时间
+     */
+    private Date releaseTime;
+
+    /**
+     * 关键字
+     */
+    private String keyWord;
+    /**
+     * 帖子发布状态
+     */
+    private Integer status;
 
     /**
      * 创建时间(收录时间)
@@ -51,5 +85,11 @@ public class Blog {
      * 更新时间
      */
     private String updateTime;
+
+    /**
+     * 博客里存在的图片 主要用于列表展示显示缩略图
+     */
+    @TableField(exist = false)
+    private List<String> imagesList=new LinkedList<>();
 
 }

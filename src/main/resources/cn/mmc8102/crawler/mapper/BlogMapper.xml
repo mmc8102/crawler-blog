@@ -4,81 +4,58 @@
   <resultMap id="BaseResultMap" type="cn.mmc8102.crawler.domain.Blog" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="author" property="author" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="pic" property="pic" jdbcType="VARCHAR" />
-    <result column="reading" property="reading" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="read_count" property="readCount" jdbcType="INTEGER" />
+    <result column="reply_count" property="replyCount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <association property="blogType" javaType="cn.mmc8102.crawler.domain.BlogType" columnPrefix="bt_">
+      <id column="id" property="id"/>
+      <result column="type_name" property="typeName"/>
+    </association>
   </resultMap>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from blog
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-
-  <insert id="insert" parameterType="cn.mmc8102.crawler.domain.Blog" useGeneratedKeys="true" keyProperty="id" >
-    insert into blog (title, author, url, 
-      pic, create_time, update_time, 
-      content, reading)
-    values (#{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{pic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR}, #{reading})
-  </insert>
-
-  <update id="updateByPrimaryKey" parameterType="cn.mmc8102.crawler.domain.Blog" >
-    update blog
-    set title = #{title,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      pic = #{pic,jdbcType=VARCHAR},
-      reading = #{reading},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-
   <sql id="baseColumn">
-    id, title, author, url, pic, create_time, update_time, content, reading
+    id, title, summary, content, key_word, status, url, type_id, read_count, reply_count, release_time, create_time, update_time
   </sql>
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select <include refid="baseColumn"/>
-    from blog
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select <include refid="baseColumn"/>
-    from blog
-  </select>
-
-  <select id="queryByUrlAndTime" resultMap="BaseResultMap">
-    select <include refid="baseColumn"/>
-    from blog
-    where url = #{url} and update_time = #{time}
-  </select>
 
   <sql id="where_sql">
     <where>
+
       <if test="keyWord!=null">
-        (username LIKE concat('%',#{keyWord},'%') OR realname LIKE concat('%',#{keyWord},'%') OR tel LIKE concat('%',#{keyWord},'%'))
+         AND title LIKE concat('%',#{keyWord},'%')
+      </if>
+      <if test="status>0">
+        AND status = ${status} ORDER BY release_time DESC
+      </if>
+      <if test="status=0">
+        ORDER BY create_time DESC
       </if>
     </where>
   </sql>
 
-  <select id="queryForCount" resultType="long">
+  <select id="queryForCount" resultType="int">
     select COUNT(id) FROM blog
     <include refid="where_sql"/>
   </select>
   <select id="queryForList" resultMap="BaseResultMap">
-    select id, title, url, create_time, update_time, reading
+    select <include refid="baseColumn"/>
     from blog
     <include refid="where_sql"/>
-    <if test="page!=null">
-      limit #{start}, #{rows}
+    <if test="currentPage!=null">
+      limit #{start}, #{pageSize}
     </if>
+  </select>
+
+  <select id="queryById" resultMap="BaseResultMap">
+    select b.id, title, summary, content, key_word, status, url, type_id, read_count, reply_count, release_time, create_time, update_time,
+        bt.id as bt_id, bt.type_name as bt_type_name
+    from blog b left join blogtype bt on b.type_id = bt.id
+    where b.id = #{id}
   </select>
 </mapper>

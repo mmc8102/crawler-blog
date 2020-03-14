@@ -2,7 +2,7 @@ package cn.mmc8102.crawler.mapper;
 
 import cn.mmc8102.crawler.domain.Blog;
 import cn.mmc8102.crawler.query.QueryObject;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
@@ -10,28 +10,21 @@ import java.util.List;
  * @author mmc
  * blog相关mapper
  */
-@Mapper
-public interface BlogMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Blog record);
-
-    Blog selectByPrimaryKey(Long id);
-
-    List<Blog> selectAll();
-
-    int updateByPrimaryKey(Blog record);
+public interface BlogMapper extends BaseMapper<Blog> {
 
     /**
-     * 根据url和发布时间查询工作信息
-     * @param url
-     * @param time
+     * 高级查询和分页
+     * @param qo
      * @return
      */
-    Blog queryByUrlAndTime(String url, String time);
-
-
-    Long queryForCount(QueryObject qo);
+    Integer queryForCount(QueryObject qo);
 
     List<Blog> queryForList(QueryObject qo);
+
+    /**
+     * 根据id查询帖子详情,带分类
+     * @param id
+     * @return
+     */
+    Blog queryById(Long id);
 }
