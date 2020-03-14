@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.mmc8102</groupId>
-    <artifactId>crawler</artifactId>
+    <artifactId>crawler-blog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>crawler</name>
+    <name>crawler-blog</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
