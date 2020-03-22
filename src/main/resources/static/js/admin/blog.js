@@ -9,29 +9,20 @@ $(function(){
 		toolbar:'#emp_datagrid_bt',
 		pageList:[10,20,30,40,50],
 		url:'/admin/blog/list',
-		onClickRow:function(rowIndex, rowData){
-			if(rowData.state){
-				$("#emp_datagrid_edit,#emp_datagrid_del").linkbutton("enable");
-			}else{
-				//禁用按钮
-				$("#emp_datagrid_edit,#emp_datagrid_del").linkbutton("disable");
-			}
-		}, 
 		columns:[[
 			{field:'id',title:'编号',align:'center',width:1},
-			{field:'title',title:'标题',align:'center',width:2},
+			{field:'title',title:'标题',align:'center',width:3},
 			{field:'url',title:'原始地址',align:'center',width:2,formatter:urlFormatter},
 			{field:'status',title:'状态',align:'center',width:1,formatter:stateFormatter},
 			{field:'createTime',title:'抓取日期',align:'center',width:1,formatter : function(value){
-					var unixTimestamp = new Date(value);
-					return unixTimestamp.toLocaleString();
-				}},
+					return new Date(value).toLocaleString();
+			}},
 		]]
 	});
 	
 	$("#emp_dialog").dialog({
-		height:300,
-		width:251,
+		height:680,
+		width:1000,
 		buttons:"#emp_dialog_bt",
 		closed:true,
 	});
@@ -47,27 +38,28 @@ function stateFormatter(value,row,index){
 function add(){
 	$("#emp_dialog").dialog("open");
 	$("#emp_dialog").dialog("setTitle","新增");
+	$(".easyui-validatebox").validatebox({novalidate:true});
 	$("#emp_form").form("clear");
 }
 function edit(){
 	//获取到选中的数据
 	var rowData = $("#emp_datagrid").datagrid("getSelected");
+	$(".easyui-validatebox").validatebox({novalidate:true});
 	if(rowData){
 		$("#emp_dialog").dialog("open");
 		$("#emp_dialog").dialog("setTitle","编辑");
 		$("#emp_form").form("clear");
-		//特殊属性处理
+		/*//特殊属性处理
 		if(rowData.dept){
 			rowData["dept.id"] = rowData.dept.id;
-		}
+		}*/
 		//发送一个同步请求到后台查询该员工角色集合
-		 var html = $.ajax({
-			  url: "/emp_queryByEid?id="+rowData.id,
+		 /*var html = $.ajax({
+			  url: "/admin/blog/get?id="+rowData.id,
 			  async: false
 			 }).responseText;
-		 console.log(html);
-		 html = $.parseJSON(html);
-		 $("#emp_roles").combobox("setValues",html);
+		 html = $.parseJSON(html);*/
+		 $("#content").html(rowData.content);
 		$("#emp_form").form("load",rowData);//基于同名匹配规则
 	}else{
 		$.messager.alert("温馨提示","请选着一条数据","info");
@@ -77,10 +69,10 @@ function del(){
 	//获取到选中的数据
 	var rowData = $("#emp_datagrid").datagrid("getSelected");
 	if(rowData){
-        $.messager.confirm('温馨提示', '你确定离职该员工？', function(r){
+        $.messager.confirm('温馨提示', '你确定删除该博客吗？', function(r){
             if (r){
             	//删除数据
-            	$.get("/employee_delete?id="+rowData.id,function(data){
+            	$.get("/admin/blog/delete?id="+rowData.id,function(data){
             		if(data.success){
             			$.messager.alert("温馨提示",data.msg,"info");
             			$("#emp_datagrid").datagrid("reload");
@@ -101,17 +93,15 @@ function save(){
 	var idVal = $("#emp_form [name=id]").val();
 	var url;
 	if(idVal){
-		url = '/employee_update';
+		url = '/admin/blog/update';
 	}else{
-		url = '/employee_save';
+		url = '/admin/blog/save';
 	}
 	$("#emp_form").form("submit",{
 		url:url,
-		onSubmit: function(param){ 
-			var values = $("#emp_roles").combobox("getValues");
-			for(i=0; i<values.length; i++){
-				param["roles["+i+"].id"] = values[i];    
-			}
+		onSubmit: function(param){
+			// 在表单提交前，做一下验证
+			$('.easyui-validatebox').validatebox('enableValidation').validatebox('validate');
 	    },
 		success:function(data){
 			data = $.parseJSON(data);

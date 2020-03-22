@@ -14,10 +14,11 @@ import java.util.List;
 @Data
 public class Blog {
     /**
-     * 博客发布状态 1:发布 0:未发布
+     * 博客发布状态 1:发布 0:未发布 -1:删除
      */
-    public static final int STATUS_PUBLISH = 1;
     public static final int STATUS_NOT_PUBLISH = 0;
+    public static final int STATUS_PUBLISH = 1;
+    public static final int STATUS_DELETE = -1;
 
     private Long id;
 
@@ -50,7 +51,7 @@ public class Blog {
     /**
      * 博客类型
      */
-    private BlogType typeId;
+    private Long typeId;
 
     /**
      * 阅读量

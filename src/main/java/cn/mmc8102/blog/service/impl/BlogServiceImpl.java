@@ -53,4 +53,15 @@ public class BlogServiceImpl implements IBlogService {
         }
         return PageResult.empty(qo.getRows());
     }
+
+    @Override
+    public void delete(Long id) {
+        Blog blog = blogMapper.queryById(id);
+        if(blog != null){
+            blog.setStatus(Blog.STATUS_DELETE);
+            blogMapper.updateById(blog);
+        }else{
+            throw new RuntimeException("该博客不存在!");
+        }
+    }
 }

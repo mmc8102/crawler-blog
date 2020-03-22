@@ -8,6 +8,7 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
     <result column="read_count" property="readCount" jdbcType="INTEGER" />
     <result column="reply_count" property="replyCount" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />

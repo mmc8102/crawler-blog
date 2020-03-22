@@ -30,4 +30,10 @@ public interface IBlogService {
      * @return
      */
     PageResult query(QueryObject qo);
+
+    /**
+     * 删除博客
+     * @param id
+     */
+    void delete(Long id);
 }
