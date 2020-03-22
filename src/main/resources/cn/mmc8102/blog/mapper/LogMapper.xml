@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.mmc8102.blog.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="cn.mmc8102.blog.domain.Log" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="opTime" property="optime" jdbcType="TIMESTAMP" />
+    <result column="opIp" property="opip" jdbcType="VARCHAR" />
+    <result column="function" property="function" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+    <association property="opuser" javaType="cn.mmc8102.blog.domain.Logininfo"  columnPrefix="e_">
+    	<id column="id" property="id"/>
+    	<result column="username" property="username"/>
+    </association>
+  </resultMap>
+  
+  <sql id="where_sql">
+  	<where>
+  		<if test="keyWord!=null">
+  			(username like concat('%',#{keyWord},'%') or l.opTime like concat('%',#{keyWord},'%') or l.opIp like concat('%',#{keyWord},'%'))
+  		</if>
+  	</where>
+  </sql>
+  <select id="queryForCount" resultType="int">
+  	SELECT COUNT(l.id) FROM log l left join logininfo e on l.opUser_id = e.id
+  	<include refid="where_sql"/>
+  </select>
+  <select id="queryForList" resultMap="BaseResultMap">
+  	 select l.id, l.opUser_id, l.opTime, l.opIp, l.function, l.params, e.username e_username, e.id e_id
+    from log l left join logininfo e on l.opUser_id = e.id
+    <include refid="where_sql"/>
+    <if test="page!=null">
+    	limit #{start},#{rows}
+    </if>
+  </select>
+</mapper>
