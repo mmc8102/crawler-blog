@@ -26,13 +26,13 @@ public class IndexController {
     @Autowired
     private IBlogTypeService blogTypeService;
 
-    @RequestMapping("index")
+    @RequestMapping("")
     public String index(@ModelAttribute("qo") BlogQueryObject qo, Model model, HttpServletRequest request){
         qo.setStatus(Blog.STATUS_PUBLISH);
         PageResult blogs = blogService.query(qo);
         model.addAttribute("types", blogTypeService.queryForList());
         model.addAttribute("blogs", blogs);
-        model.addAttribute("pageCode", PageUtil.genPagination(request.getContextPath()+"/index", blogs.getTotalCount(), blogs.getCurrentPage(), blogs.getPageSize()));
+        model.addAttribute("pageCode", PageUtil.genPagination(request.getContextPath()+"/index", blogs.getTotal(), blogs.getCurrentPage(), blogs.getPageSize()));
         return "index";
     }
 

@@ -26,12 +26,17 @@ public class BlogServiceImpl implements IBlogService {
         wrapper.eq("url", blog.getUrl())
                 .eq("update_time", blog.getUpdateTime());
         Blog info = blogMapper.selectOne(wrapper);
+        if(info == null){
+            return blogMapper.insert(blog);
+        }
+        return 0;
         //判断info是否为空,为空就新增,不为空就更新
-        if(info != null){
+        /*if(info != null){
+            blog.setUpdateTime(new Date().toString());
             return blogMapper.updateById(blog);
         }else{
             return blogMapper.insert(blog);
-        }
+        }*/
     }
 
     @Override
@@ -44,8 +49,8 @@ public class BlogServiceImpl implements IBlogService {
         int count = blogMapper.queryForCount(qo);
         if(count > 0){
             List<Blog> list = blogMapper.queryForList(qo);
-            return new PageResult(list, count, qo.getCurrentPage(),qo.getPageSize());
+            return new PageResult(count, list, qo.getPage(), qo.getRows());
         }
-        return PageResult.empty(qo.getPageSize());
+        return PageResult.empty(qo.getRows());
     }
 }

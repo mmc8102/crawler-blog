@@ -16,9 +16,9 @@ public class PageUtil {
 			return "未查询到数据";
 		}else{
 			StringBuffer pageCode=new StringBuffer();
-			pageCode.append("<li><a href='"+targetUrl+"?currentPage=1'>首页</a></li>");
+			pageCode.append("<li><a href='"+targetUrl+"?page=1'>首页</a></li>");
 			if(currentPage>1){
-				pageCode.append("<li><a href='"+targetUrl+"?currentPage="+(currentPage-1)+"'>上一页</a></li>");
+				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage-1)+"'>上一页</a></li>");
 			}else{
 				pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
 			}
@@ -27,17 +27,17 @@ public class PageUtil {
 					continue;
 				}
 				if(i==currentPage){
-					pageCode.append("<li class='active'><a href='"+targetUrl+"?currentPage="+i+"'>"+i+"</a></li>");
+					pageCode.append("<li class='active'><a href='"+targetUrl+"?page="+i+"'>"+i+"</a></li>");
 				}else{
-					pageCode.append("<li><a href='"+targetUrl+"?currentPage="+i+"'>"+i+"</a></li>");
+					pageCode.append("<li><a href='"+targetUrl+"?page="+i+"'>"+i+"</a></li>");
 				}
 			}
 			if(currentPage<totalPage){
-				pageCode.append("<li><a href='"+targetUrl+"?currentPage="+(currentPage+1)+"'>下一页</a></li>");
+				pageCode.append("<li><a href='"+targetUrl+"?page="+(currentPage+1)+"'>下一页</a></li>");
 			}else{
 				pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
 			}
-			pageCode.append("<li><a href='"+targetUrl+"?currentPage="+totalPage+"'>尾页</a></li>");
+			pageCode.append("<li><a href='"+targetUrl+"?page="+totalPage+"'>尾页</a></li>");
 			return pageCode.toString();
 		}
 	}

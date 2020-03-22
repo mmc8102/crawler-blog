@@ -31,10 +31,10 @@
          AND title LIKE concat('%',#{keyWord},'%')
       </if>
       <if test="status>0">
-        AND status = ${status} ORDER BY release_time DESC
+        AND status = 0 ORDER BY release_time DESC
       </if>
-      <if test="status=0">
-        ORDER BY create_time DESC
+      <if test="status==0">
+        AND status >= 0 ORDER BY create_time DESC
       </if>
     </where>
   </sql>
@@ -47,8 +47,8 @@
     select <include refid="baseColumn"/>
     from blog
     <include refid="where_sql"/>
-    <if test="currentPage!=null">
-      limit #{start}, #{pageSize}
+    <if test="page!=null">
+      limit #{start}, #{rows}
     </if>
   </select>
 

@@ -40,7 +40,7 @@
 					最新博客</div>
 				<div class="datas">
 					<ul>
-						<#list blogs.listData as blog>
+						<#list blogs.rows as blog>
 							<li style="margin-bottom: 30px">
 								<a href="/blog/query_detail/${blog.id}">
 									<span class="title">${blog.title}</span>

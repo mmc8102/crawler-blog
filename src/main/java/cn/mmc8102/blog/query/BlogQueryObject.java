@@ -14,6 +14,9 @@ import lombok.Setter;
 @Setter
 public class BlogQueryObject extends QueryObject {
 	private Long id;
+	/**
+	 * 博客状态
+	 */
 	private Integer status = 0;
 	/**
 	 * 关键字查询

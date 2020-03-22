@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @TableName("blogtype")
 public class BlogType {
-    private Integer id;
+    private Long id;
     /**
      * 博客类型名称
      */

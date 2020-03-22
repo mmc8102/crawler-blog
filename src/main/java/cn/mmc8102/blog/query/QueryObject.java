@@ -9,13 +9,15 @@ import lombok.Setter;
  */
 @Getter@Setter
 public class QueryObject{
-	private Integer currentPage = 1;
-	private Integer pageSize = 5;
+	/*private Integer currentPage = 1;
+	private Integer pageSize = 10;*/
+	private Integer page = 1;
+	private Integer rows = 10;
 
 	public int getStart() {
-		if (currentPage == null) {
-			currentPage = 1;
+		if (page == null) {
+			page = 1;
 		}
-		return (currentPage - 1) * pageSize;
+		return (page - 1) * rows;
 	}
 }

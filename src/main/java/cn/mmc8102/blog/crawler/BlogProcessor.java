@@ -1,6 +1,7 @@
 package cn.mmc8102.blog.crawler;
 
 import cn.mmc8102.blog.domain.Blog;
+import cn.mmc8102.blog.util.HtmlRegexpUtil;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -20,11 +21,11 @@ public class BlogProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         //解析页面,获取招聘信息详情的url地址
-        List<Selectable> list = page.getHtml().css("div.content div.tab-panel.active a.wrapper").nodes();
+        List<Selectable> list = page.getHtml().css("#main #post_list .post_item").nodes();
         //判断获取到的集合是否为空
         if(list.size() == 0){
-            //如果为空,表示这是招聘详情页,解析页面,获取文章信息,保存数据
-            this.saveJobInfo(page);
+            //如果为空,表示这是博客详情页,解析页面,获取文章信息,保存数据
+            this.saveBlogInfo(page);
         }else{
             //如果不为空,表示这事列表页,解析出详情页的url地址,放到队列中
             for (Selectable selectable : list) {
@@ -35,35 +36,50 @@ public class BlogProcessor implements PageProcessor {
                     page.addTargetRequest(blogUrl);
                 }
             }
-
-            //获取下一页的url
-            String bkUrl = page.getHtml().css("div.pagination li").nodes().get(1).links().toString();
-            page.addTargetRequest(bkUrl);
+            String nextUrl = page.getUrl().toString();
+            if("https://www.cnblogs.com".equals(nextUrl)){
+                //当前是首页,获取第二页url
+                nextUrl = page.getHtml().css("#pager_bottom .pager a").nodes().get(1).links().toString();
+            }else{
+                //获取下一页的url
+                Integer pageCode = Integer.valueOf(nextUrl.substring(nextUrl.indexOf('p',10)+2));
+                //Integer pageCode = Integer.valueOf(nextUrl.substring(nextUrl.length() - 1, nextUrl.length()));
+                nextUrl = nextUrl.replace(pageCode.toString(), String.valueOf(pageCode<=200?pageCode+1:200));
+            }
+            page.addTargetRequest(nextUrl);
         }
 
     }
 
     /**
-     * 解析页面,获取招聘详情信息,保存数据
+     * 解析页面,获取博客信息,保存数据
      * @param page
      */
-    private void saveJobInfo(Page page) {
+    private void saveBlogInfo(Page page) {
         Html html = page.getHtml();
         Blog blog = new Blog();
-        blog.setTitle(html.css("div.article .name", "text").toString());
-        String content = html.css("div.article textarea", "text").toString();
-        blog.setContent(content);
-        //blog.setAuthor(" ");
-        //blog.setPic();
+        blog.setTitle(html.css("#topics .post .postTitle a", "text").toString());
+        String content = "";
+        try {
+            content = html.css("#topics .post .postBody #cnblogs_post_body").toString().trim();
+        }catch (Exception e){
+            return;
+        }
+        String contentSubInnerHtml = content.substring(content.indexOf('<',1));
+        //获取文章内容带html
+        blog.setContent(contentSubInnerHtml.substring(0, contentSubInnerHtml.length() - 6));
+        //从内容中截取摘要,不带html
+        blog.setSummary(HtmlRegexpUtil.filterHtml(blog.getContent()).replace("\n", "").trim().substring(0, 150));
         blog.setUrl(page.getUrl().toString());
-        String readCount = html.css("div.article .updateDate_n_read span", "text").nodes().get(2).toString();
-        //blog.setReading(Integer.valueOf(readCount.substring(4, readCount.length() - 1)));
-        String updateTime = html.css("div.article .updateDate_n_read span", "text").nodes().get(0).toString().substring(7);
+        //String readCount = html.css("#topics .post .postDesc span#post_view_count", "text").toString();
+        blog.setReadCount(0);
+        String updateTime = html.css("#topics .post .postDesc #post-date", "text").toString();
         blog.setUpdateTime(updateTime);
         blog.setCreateTime(new Date());
-
+        blog.setReplyCount(0);
+        blog.setStatus(Blog.STATUS_NOT_PUBLISH);
         //把结果保存起来
-        page.putField("jobInfo", blog);
+        page.putField("blogInfo", blog);
     }
 
     @Override

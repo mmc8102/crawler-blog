@@ -20,7 +20,7 @@ public class BlogPipeline implements Pipeline {
     @Override
     public void process(ResultItems resultItems, Task task) {
         //获取封装好的招聘详情对象
-        Blog blog = resultItems.get("jobInfo");
+        Blog blog = resultItems.get("blogInfo");
         if(blog != null){
             //保存到数据库中
             blogService.add(blog);

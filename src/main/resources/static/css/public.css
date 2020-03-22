@@ -1,0 +1,50 @@
+/**
+ * 公共样式
+ */
+
+ /**头部 header**/
+ .content{
+ 	margin: 0 auto;
+ }
+ .public-header-warrp{
+    position: fixed;
+    width: 100%;
+    top:0;
+    left:0;
+    z-index: 10000;
+   
+ }
+ .public-header{
+ 	height: 70px;
+ 	background: #fff;
+ 	border-bottom:1px solid #DDD;
+    box-shadow: 0px 0px 5px #000;
+    -webkit-box-shadow: 0px 0px 5px #000;
+    -o-box-shadow: 0px 0px 5px #000;
+    -moz-box-shadow: 0px 0px 5px #000;
+     background-color: #C0C0C0;
+ }
+ 
+ .public-header .public-header-admin{
+ 	min-width: 300px;
+ 	line-height: 75px;
+	margin-right:20px;
+	display:inline-block;
+ }
+ .public-header .public-header-admin .admin-name{
+ 	display: inline-block;
+    width: 176px;
+ }
+ .public-header .public-header-admin a{
+ 	display: inline;
+ 	color:#fefefe;
+ 	padding: 8px;
+ 	border-radius: 8px;
+ }
+ .public-header .public-header-admin .public-header-man{
+ 	background:#a5cf4c;
+ }
+ .public-header .public-header-admin .public-header-loginout{
+ 	background:#52afb7;
+ }
+ /*公共头部end*/

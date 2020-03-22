@@ -82,7 +82,7 @@ public class Blog {
     private Date createTime;
 
     /**
-     * 更新时间
+     * 更新时间(原网站发布时间)
      */
     private String updateTime;
 
