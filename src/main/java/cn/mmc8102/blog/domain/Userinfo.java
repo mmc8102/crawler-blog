@@ -15,11 +15,23 @@ import java.util.Date;
 @Getter
 @Setter
 public class Userinfo {
+
+    /**
+     * 性别 1.男 0.女
+     */
+    public static final int SEX_MAN = 1;
+    public static final int SEX_WOMEN = 0;
+
     private Long id;
     /**
      * 真实姓名
      */
 	private String realName;
+
+    /**
+     * 工号
+     */
+	private String number;
     /**
      * 邮箱
      */

@@ -27,4 +27,10 @@ public interface BlogMapper extends BaseMapper<Blog> {
      * @return
      */
     Blog queryById(Long id);
+
+    /**
+     * 更新阅读量
+     * @param id
+     */
+    void updateReadCount(Long id);
 }

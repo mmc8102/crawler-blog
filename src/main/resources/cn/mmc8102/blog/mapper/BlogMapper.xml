@@ -40,6 +40,7 @@
     </where>
   </sql>
 
+
   <select id="queryForCount" resultType="int">
     select COUNT(id) FROM blog
     <include refid="where_sql"/>
@@ -59,4 +60,8 @@
     from blog b left join blogtype bt on b.type_id = bt.id
     where b.id = #{id}
   </select>
+
+  <update id="updateReadCount">
+    update blog set read_count = read_count + 1 where id = #{id}
+  </update>
 </mapper>

@@ -3,30 +3,26 @@
 <mapper namespace="cn.mmc8102.blog.mapper.LogMapper" >
   <resultMap id="BaseResultMap" type="cn.mmc8102.blog.domain.Log" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="opTime" property="optime" jdbcType="TIMESTAMP" />
-    <result column="opIp" property="opip" jdbcType="VARCHAR" />
-    <result column="function" property="function" jdbcType="VARCHAR" />
-    <result column="params" property="params" jdbcType="VARCHAR" />
-    <association property="opuser" javaType="cn.mmc8102.blog.domain.Logininfo"  columnPrefix="e_">
-    	<id column="id" property="id"/>
-    	<result column="username" property="username"/>
-    </association>
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="where_sql">
   	<where>
   		<if test="keyWord!=null">
-  			(username like concat('%',#{keyWord},'%') or l.opTime like concat('%',#{keyWord},'%') or l.opIp like concat('%',#{keyWord},'%'))
+  			(username like concat('%',#{keyWord},'%') or login_time like concat('%',#{keyWord},'%') or ip like concat('%',#{keyWord},'%'))
   		</if>
   	</where>
   </sql>
   <select id="queryForCount" resultType="int">
-  	SELECT COUNT(l.id) FROM log l left join logininfo e on l.opUser_id = e.id
+  	SELECT COUNT(id) FROM log
   	<include refid="where_sql"/>
   </select>
   <select id="queryForList" resultMap="BaseResultMap">
-  	 select l.id, l.opUser_id, l.opTime, l.opIp, l.function, l.params, e.username e_username, e.id e_id
-    from log l left join logininfo e on l.opUser_id = e.id
+  	 select id, username, login_time, ip, status, user_type from log
     <include refid="where_sql"/>
     <if test="page!=null">
     	limit #{start},#{rows}

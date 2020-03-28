@@ -36,4 +36,10 @@ public interface IBlogService {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 根据博客阅读量
+     * @param id
+     */
+    void updateReadCount(Long id);
 }

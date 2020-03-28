@@ -64,4 +64,9 @@ public class BlogServiceImpl implements IBlogService {
             throw new RuntimeException("该博客不存在!");
         }
     }
+
+    @Override
+    public void updateReadCount(Long id) {
+        blogMapper.updateReadCount(id);
+    }
 }

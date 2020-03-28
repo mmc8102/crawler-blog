@@ -6,14 +6,30 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+/**
+ * @author 16282
+ */
 @Setter@Getter
 public class Log {
-    private Long id;	//ID
-    private Logininfo opuser;	//操作用户
+
+    /**
+     * 登陆状态 0.登陆失败 1.登陆成功
+     */
+    public static final int STATUS_FAILURE = 0;
+    public static final int STATUS_SUCCESS = 1;
+
+    private Long id;
+    /**
+     * 登陆用户名
+     */
+    private String username;
+    /**
+     * 登陆时间
+     */
     @JsonFormat(pattern="yyyy-MM-dd", timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date optime;	//操作时间
-    private String opip;	//登陆IP
-    private String function;	//使用功能
-    private String params;	//操作参数信息
+    private Date loginTime;
+    private String ip;
+    private Integer status;
+    private Integer userType;
 }
