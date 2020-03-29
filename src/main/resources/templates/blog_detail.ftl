@@ -68,9 +68,6 @@
 				</div>
 				<div>
 					<div class="blog_title"><h3><strong>${blog.title }</strong></h3></div>
-					<div style="padding-left: 330px;padding-bottom: 20px;padding-top: 10px">
-						<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
-					</div>
 					<div class="blog_info">
 						发布时间：『 ${(blog.releaseTime?string("yyyy-MM-dd"))!}』&nbsp;&nbsp;博客类别：${(blog.blogType.typeName)!''}&nbsp;&nbsp;阅读(${blog.readCount}) 评论(${blog.replyCount})
 					</div>

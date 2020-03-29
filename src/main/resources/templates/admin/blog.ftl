@@ -4,6 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>博客管理</title>
 <#include "common.ftl"/>
+<link rel="stylesheet" href="/js/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="/js/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="/js/kindeditor/lang/zh-CN.js"></script>
 <script type="text/javascript" src="/js/admin/blog.js"></script>
 <style>
 	.model{
@@ -13,8 +16,28 @@
 	}
 	.td{
 	}
-
 </style>
+<#--<script type="text/javascript">
+	$(function () {
+		//详情编辑器
+		KindEditor.ready(function (K) {
+			this.editor
+					= K.create('textarea[id="editor"]', {
+				items: ['source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+					'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+					'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+					'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+					'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+					'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'multiimage',
+					'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+					'anchor', 'link', 'unlink'],
+				uploadJson: '/images',//指定上传图片的服务器端程序
+				fileManagerJson: '/images',//指定浏览远程图片的服务器端程序
+				allowFileManager: true
+			});
+		});
+	});
+</script>-->
 </head>
 <body>
 	<table id="emp_datagrid"></table>
@@ -65,8 +88,9 @@
 				</tr>
 				<tr class="model">
 					<td>帖子内容:</td>
-					<td class="td" id="content1">
-
+					<td class="td">
+						<textarea id="editor" name="content" style="width:600px;height:400px;visibility:hidden;">
+						</textarea>
 					</td>
 				</tr>
 			</table>

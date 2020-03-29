@@ -1,9 +1,8 @@
 package cn.mmc8102.blog.query;
 
-import org.springframework.util.StringUtils;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 课程高级查询对象
@@ -24,6 +23,7 @@ public class BlogQueryObject extends QueryObject {
 	private String keyWord;
 	
 	public String getKeyWord() {
-		return StringUtils.hasLength(keyWord)?keyWord:null;
+		//return StringUtils.hasLength(keyWord)?keyWord.trim():null;
+		return StringUtils.isNotBlank(keyWord)?keyWord.trim():null;
 	}
 }

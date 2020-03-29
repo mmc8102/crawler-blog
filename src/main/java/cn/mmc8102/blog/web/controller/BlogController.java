@@ -49,13 +49,13 @@ public class BlogController {
         if (prevBlog == null || prevBlog.getId() == null) {
             pageCode.append("<p>上一篇：没有了</p>");
         } else {
-            pageCode.append("<p>上一篇：<a href='" + "/blog/" + prevBlog.getId() + "'>"
+            pageCode.append("<p>上一篇：<a href='" + "/blog/query_detail/" + prevBlog.getId() + "'>"
                     + prevBlog.getTitle() + "</a></p>");
         }
         if (nextBlog == null || nextBlog.getId() == null) {
             pageCode.append("<p>下一篇：没有了</p>");
         } else {
-            pageCode.append("<p>下一篇：<a href='" + "/blog/" + nextBlog.getId() + "'>"
+            pageCode.append("<p>下一篇：<a href='" + "/blog/query_detail/" + nextBlog.getId() + "'>"
                     + nextBlog.getTitle() + "</a></p>");
         }
         return pageCode.toString();

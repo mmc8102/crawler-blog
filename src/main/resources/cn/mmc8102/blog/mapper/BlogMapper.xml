@@ -32,7 +32,7 @@
          AND title LIKE concat('%',#{keyWord},'%')
       </if>
       <if test="status>0">
-        AND status = 0 ORDER BY release_time DESC
+        AND status = 0 ORDER BY release_time, create_time DESC
       </if>
       <if test="status==0">
         AND status >= 0 ORDER BY create_time DESC

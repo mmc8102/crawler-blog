@@ -42,7 +42,7 @@
 					<ul>
 						<#list blogs.rows as blog>
 							<li style="margin-bottom: 30px">
-								<a href="/blog/query_detail/${blog.id}">
+								<a href="/blog/query_detail/${blog.id?c}">
 									<span class="title">${blog.title}</span>
 									<span class="summary">摘要: ${blog.summary!''}...</span>
 									<span class="img">

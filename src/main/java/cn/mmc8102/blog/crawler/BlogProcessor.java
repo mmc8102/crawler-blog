@@ -2,6 +2,8 @@ package cn.mmc8102.blog.crawler;
 
 import cn.mmc8102.blog.domain.Blog;
 import cn.mmc8102.blog.util.HtmlRegexpUtil;
+import cn.mmc8102.blog.util.HttpUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -17,10 +19,12 @@ import java.util.List;
  */
 @Component
 public class BlogProcessor implements PageProcessor {
+    @Autowired
+    private HttpUtils httpUtils;
 
     @Override
     public void process(Page page) {
-        //解析页面,获取招聘信息详情的url地址
+        //解析页面,获取博客信息url地址
         List<Selectable> list = page.getHtml().css("#main #post_list .post_item").nodes();
         //判断获取到的集合是否为空
         if(list.size() == 0){
@@ -59,6 +63,7 @@ public class BlogProcessor implements PageProcessor {
         Html html = page.getHtml();
         Blog blog = new Blog();
         blog.setTitle(html.css("#topics .post .postTitle a", "text").toString());
+        Selectable links = html.css("#post_detail img");
         String content = "";
         try {
             content = html.css("#topics .post .postBody #cnblogs_post_body").toString().trim();
@@ -78,6 +83,9 @@ public class BlogProcessor implements PageProcessor {
         blog.setCreateTime(new Date());
         blog.setReplyCount(0);
         blog.setStatus(Blog.STATUS_NOT_PUBLISH);
+        //获取图片
+
+
         //把结果保存起来
         page.putField("blogInfo", blog);
     }

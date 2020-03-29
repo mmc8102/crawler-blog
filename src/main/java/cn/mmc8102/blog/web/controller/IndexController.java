@@ -26,7 +26,16 @@ public class IndexController {
     @Autowired
     private IBlogTypeService blogTypeService;
 
+    /**
+     * 默认跳转到首页
+     * @return
+     */
     @RequestMapping("")
+    public String main(){
+        return "redirect:/index";
+    }
+
+    @RequestMapping("/index")
     public String index(@ModelAttribute("qo") BlogQueryObject qo, Model model, HttpServletRequest request){
         qo.setStatus(Blog.STATUS_PUBLISH);
         PageResult blogs = blogService.query(qo);

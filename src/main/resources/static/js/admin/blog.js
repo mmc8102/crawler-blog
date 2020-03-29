@@ -59,7 +59,22 @@ function edit(){
 			  async: false
 			 }).responseText;
 		 html = $.parseJSON(html);*/
-		 $("#content").html(rowData.content);
+		var options = {
+			width: '700px',
+			height: '400px',
+			uploadJson: '/Scripts/KindEditor/asp.net/upload_json.ashx',
+			fileManagerJson: '/Scripts/KindEditor/asp.net/file_manager_json.ashx',
+			allowFileManager: true,
+			afterBlur: function () {
+				this.sync();
+			},
+			afterCreate: function () {
+				this.sync();
+			}
+		}
+		var editor = KindEditor.create('#editor', options);
+		editor.html("");
+		editor.html(rowData.content);
 		$("#emp_form").form("load",rowData);//基于同名匹配规则
 	}else{
 		$.messager.alert("温馨提示","请选着一条数据","info");
