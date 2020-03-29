@@ -69,7 +69,7 @@
 				<div>
 					<div class="blog_title"><h3><strong>${blog.title }</strong></h3></div>
 					<div class="blog_info">
-						发布时间：『 ${(blog.releaseTime?string("yyyy-MM-dd"))!}』&nbsp;&nbsp;博客类别：${(blog.blogType.typeName)!''}&nbsp;&nbsp;阅读(${blog.readCount}) 评论(${blog.replyCount})
+						发布时间：『 ${(blog.updateTime)!}』&nbsp;&nbsp;博客类别：${(blog.blogType.typeName)!''}&nbsp;&nbsp;阅读(${blog.readCount}) 评论(${blog.replyCount})
 					</div>
 					<div class="blog_content">
 						${blog.content}

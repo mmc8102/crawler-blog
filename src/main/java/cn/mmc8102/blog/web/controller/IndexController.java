@@ -1,10 +1,13 @@
 package cn.mmc8102.blog.web.controller;
 
 import cn.mmc8102.blog.domain.Blog;
+import cn.mmc8102.blog.domain.Log;
+import cn.mmc8102.blog.domain.Logininfo;
 import cn.mmc8102.blog.query.BlogQueryObject;
 import cn.mmc8102.blog.query.PageResult;
 import cn.mmc8102.blog.service.IBlogService;
 import cn.mmc8102.blog.service.IBlogTypeService;
+import cn.mmc8102.blog.service.ILogService;
 import cn.mmc8102.blog.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * @author wangli28
@@ -25,13 +29,21 @@ public class IndexController {
     private IBlogService blogService;
     @Autowired
     private IBlogTypeService blogTypeService;
+    @Autowired
+    private ILogService logService;
 
     /**
      * 默认跳转到首页
      * @return
      */
     @RequestMapping("")
-    public String main(){
+    public String main(HttpServletRequest request){
+        //保存登录日志
+        Log log = new Log();
+        log.setIp(request.getRemoteHost());
+        log.setLoginTime(new Date());
+        log.setUserType(Logininfo.USER_TYPE_CLIENT);
+        logService.add(log);
         return "redirect:/index";
     }
 

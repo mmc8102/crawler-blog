@@ -88,7 +88,7 @@
 				</tr>
 				<tr class="model">
 					<td>帖子内容:</td>
-					<td class="td">
+					<td class="td" id="content">
 						<textarea id="editor" name="content" style="width:600px;height:400px;visibility:hidden;">
 						</textarea>
 					</td>

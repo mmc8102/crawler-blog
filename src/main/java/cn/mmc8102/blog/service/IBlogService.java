@@ -42,4 +42,10 @@ public interface IBlogService {
      * @param id
      */
     void updateReadCount(Long id);
+
+    /**
+     * 更新
+     * @param blog
+     */
+    void update(Blog blog);
 }

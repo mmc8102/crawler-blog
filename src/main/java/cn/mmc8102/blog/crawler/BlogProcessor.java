@@ -82,7 +82,7 @@ public class BlogProcessor implements PageProcessor {
         blog.setUpdateTime(updateTime);
         blog.setCreateTime(new Date());
         blog.setReplyCount(0);
-        blog.setStatus(Blog.STATUS_NOT_PUBLISH);
+        blog.setStatus(Blog.STATUS_PUBLISH);
         //获取图片
 
 

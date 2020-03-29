@@ -45,13 +45,7 @@
 								<a href="/blog/query_detail/${blog.id?c}">
 									<span class="title">${blog.title}</span>
 									<span class="summary">摘要: ${blog.summary!''}...</span>
-									<span class="img">
-										<#list blog.imagesList as image>
-											${image!''}
-											&nbsp;&nbsp;
-										</#list>
-									</span>
-									<span class="info">发表于 ${(blog.releaseTime?string("yyyy-MM-dd"))!}  阅读(${blog.readCount}) 评论(${blog.replyCount}) </span>
+									<span class="info">发表于 ${(blog.updateTime)!}  阅读(${blog.readCount}) 评论(${blog.replyCount}) </span>
 								</a>
 							</li>
 							<hr style="height:5px;border:none;border-top:1px dashed gray;padding-bottom:  10px;" />

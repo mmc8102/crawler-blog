@@ -69,4 +69,9 @@ public class BlogServiceImpl implements IBlogService {
     public void updateReadCount(Long id) {
         blogMapper.updateReadCount(id);
     }
+
+    @Override
+    public void update(Blog blog) {
+        blogMapper.updateById(blog);
+    }
 }

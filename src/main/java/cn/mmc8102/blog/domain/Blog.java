@@ -88,6 +88,11 @@ public class Blog {
     private String updateTime;
 
     /**
+     * 作者
+     */
+    private String author;
+
+    /**
      * 博客里存在的图片 主要用于列表展示显示缩略图
      */
     @TableField(exist = false)

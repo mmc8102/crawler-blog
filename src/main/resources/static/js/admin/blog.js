@@ -21,10 +21,11 @@ $(function(){
 	});
 	
 	$("#emp_dialog").dialog({
-		height:680,
-		width:1000,
+		height : 420,
+		width : 880,
 		buttons:"#emp_dialog_bt",
 		closed:true,
+		maximizable:true,
 	});
 });
 
@@ -36,14 +37,33 @@ function stateFormatter(value,row,index){
 }
 
 function add(){
+	KindEditor.remove('#editor');
 	$("#emp_dialog").dialog("open");
 	$("#emp_dialog").dialog("setTitle","新增");
 	$(".easyui-validatebox").validatebox({novalidate:true});
+	var options = {
+		uploadJson: '/Scripts/KindEditor/asp.net/upload_json.ashx',
+		fileManagerJson: '/Scripts/KindEditor/asp.net/file_manager_json.ashx',
+		allowFileManager: true,
+		afterBlur: function () {
+			this.sync();
+		},
+		afterCreate: function () {
+			this.sync();
+		},
+		afterChange: function () {
+			this.sync();
+		},
+	}
+	var editor = KindEditor.create('#editor', options);
+	editor.html("");
 	$("#emp_form").form("clear");
 }
 function edit(){
+	KindEditor.remove('#editor');
 	//获取到选中的数据
 	var rowData = $("#emp_datagrid").datagrid("getSelected");
+	console.log(rowData);
 	$(".easyui-validatebox").validatebox({novalidate:true});
 	if(rowData){
 		$("#emp_dialog").dialog("open");
@@ -70,10 +90,12 @@ function edit(){
 			},
 			afterCreate: function () {
 				this.sync();
-			}
+			},
+			afterChange: function () {
+				this.sync();
+			},
 		}
 		var editor = KindEditor.create('#editor', options);
-		editor.html("");
 		editor.html(rowData.content);
 		$("#emp_form").form("load",rowData);//基于同名匹配规则
 	}else{
