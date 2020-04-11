@@ -12,7 +12,7 @@
 	 <div class="public-header-warrp">
 		<div class="public-header">
 			<div class="content">
-				<img  style="width: 300px;height: 60px;" src="/img/logo2.png"/>
+				<img  style="width: 300px;height: 60px;margin: 4px;" src="/img/logo3.png"/>
 				<div class="public-header-admin fr">
 					<p class="admin-name"><font  color ="green">${logininfo.username}您好！</font> </p>
 					<div class="public-header-fun fr">

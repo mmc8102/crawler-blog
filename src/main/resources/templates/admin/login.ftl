@@ -66,8 +66,8 @@
 <div class="wrapper" style="background-color: white;">
   <div class="login-top">
   <div style="height: 60px;background-color: white;">
-	<div style="margin-left: 160px;">
-	 	<img src="/img/logo2.png" width="300" height="60"/>
+	<div style="margin-left: 160px;;">
+	 	<img src="/img/logo3.png" width="300" height="60" style="margin-top: 8px"/>
 	<!-- <img src="images/login_bg_01.png"> -->
 	</div>
 

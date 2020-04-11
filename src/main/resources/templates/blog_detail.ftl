@@ -32,18 +32,15 @@
 	-->
 	function submitData(){
 		var content=$("#content").val();
-		var imageCode=$("#imageCode").val();
 		if(content==null || content==''){
 			alert("请输入评论内容！");
-		}else if(imageCode==null || imageCode==''){
-			alert("请填写验证码！");
 		}else{
-			$.post("/comment/save.do",{'content':content,'imageCode':imageCode,'blog.id':'${blog.id}'},function(result){
+			$.post("/comment/save.do",{'content':content,'blog.id':'${blog.id}'},function(result){
 				if(result.success){
 					window.location.reload();
 					alert("评论已提交成功，审核通过后显示！");
 				}else{
-					alert(result.errorInfo);
+					alert(result.msg);
 				}
 			},"json");
 		}
@@ -91,10 +88,28 @@
 				<div class="data_list_title">
 					<img src="/img/comment_icon.png"/>
 					评论信息
-
+					<#if replys?size gt 10>
+						<a href="javascript:showOtherComment()" style="float: right;padding-right: 40px;">显示所有评论</a>
+					</#if>
 				</div>
 				<div class="commentDatas">
-
+					<#--<#if replys?size==0>
+						暂无评论
+					<#else>
+						<#list replys as r>
+							<#if r_index<10>
+								<div class="comment">
+									<span><font>${r_index+1 }楼&nbsp;&nbsp;&nbsp;&nbsp;${r.logininfo.username! }：</font>${r.content }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;${(r.replyTime?string("yyyy-MM-dd HH:mm:ss"))!}&nbsp;]</span>
+								</div>
+							<#else>
+								<div class="otherComment">
+									<div class="comment">
+										<span><font>${r_index+1 }楼&nbsp;&nbsp;&nbsp;&nbsp;${r.logininfo.username!}：</font>${r.content }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;${(r.replyTime?string("yyyy-MM-dd HH:mm:ss"))!}&nbsp;]</span>
+									</div>
+								</div>
+							</#if>
+						</#list>
+					</#if>/#-->
 				</div>
 			</div>
 
@@ -104,7 +119,12 @@
 					发表评论
 				</div>
 				<div class="publish_comment">
-
+					<div>
+						<textarea style="width: 100%" rows="3" id="content" name="content" placeholder="来说两句吧..."></textarea>
+					</div>
+					<div class="publishButton">
+						<button class="btn btn-primary" type="button" onclick="submitData()">发表评论</button>
+					</div>
 				</div>
 			</div>
 		</div>
