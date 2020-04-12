@@ -21,6 +21,11 @@ public class BlogQueryObject extends QueryObject {
 	 * 关键字查询
 	 */
 	private String keyWord;
+
+	/**
+	 * 博客类型
+	 */
+	private Long typeId;
 	
 	public String getKeyWord() {
 		//return StringUtils.hasLength(keyWord)?keyWord.trim():null;

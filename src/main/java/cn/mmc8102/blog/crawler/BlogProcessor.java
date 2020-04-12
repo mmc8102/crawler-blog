@@ -2,8 +2,6 @@ package cn.mmc8102.blog.crawler;
 
 import cn.mmc8102.blog.domain.Blog;
 import cn.mmc8102.blog.util.HtmlRegexpUtil;
-import cn.mmc8102.blog.util.HttpUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -15,12 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author mmc
+ * @author wangli
+ * @Date: 2020/3/14 21:16
  */
 @Component
 public class BlogProcessor implements PageProcessor {
-    @Autowired
-    private HttpUtils httpUtils;
 
     @Override
     public void process(Page page) {
@@ -52,7 +49,6 @@ public class BlogProcessor implements PageProcessor {
             }
             page.addTargetRequest(nextUrl);
         }
-
     }
 
     /**
@@ -84,8 +80,6 @@ public class BlogProcessor implements PageProcessor {
         blog.setReplyCount(0);
         blog.setStatus(Blog.STATUS_PUBLISH);
         //获取图片
-
-
         //把结果保存起来
         page.putField("blogInfo", blog);
     }
@@ -99,6 +93,4 @@ public class BlogProcessor implements PageProcessor {
                 .setRetryTimes(3);
         return site;
     }
-
-
 }

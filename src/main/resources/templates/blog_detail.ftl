@@ -88,9 +88,9 @@
 				<div class="data_list_title">
 					<img src="/img/comment_icon.png"/>
 					评论信息
-					<#if replys?size gt 10>
+					<#--<#if replys?size gt 10>
 						<a href="javascript:showOtherComment()" style="float: right;padding-right: 40px;">显示所有评论</a>
-					</#if>
+					</#if>-->
 				</div>
 				<div class="commentDatas">
 					<#--<#if replys?size==0>
@@ -133,12 +133,12 @@
 			<div class="data_list">
 				<div class="data_list_title">
 					<img src="/img/byType_icon.png"/>
-					按日志类别
+					按博客类别
 				</div>
 				<div class="datas">
 					<ul>
 						<#list types as t>
-							<li><span><a href="">${t.typeName}</a></span></li>
+							<li><span><a href="/index?typeId=${t.id}">${t.typeName}</a></span></li>
 						</#list>
 					</ul>
 				</div>

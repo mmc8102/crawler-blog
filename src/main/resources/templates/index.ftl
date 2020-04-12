@@ -68,12 +68,12 @@
 			<div class="data_list">
 				<div class="data_list_title">
 					<img src="/img/byType_icon.png"/>
-					按日志类别
+					按博客类别
 				</div>
 					<div class="datas">
 						<ul>
 							<#list types as t>
-								<li><span><a href="">${t.typeName}</a></span></li>
+								<li><span><a href="/index?typeId=${t.id}">${t.typeName}</a></span></li>
 							</#list>
 						</ul>
 					</div>

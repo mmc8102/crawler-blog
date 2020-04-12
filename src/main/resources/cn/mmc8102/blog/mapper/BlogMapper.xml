@@ -27,7 +27,9 @@
 
   <sql id="where_sql">
     <where>
-
+      <if test="typeId!=null">
+        AND type_id = #{typeId}
+      </if>
       <if test="keyWord!=null">
          AND title LIKE concat('%',#{keyWord},'%')
       </if>

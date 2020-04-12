@@ -10,7 +10,8 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 /**
- * @author mmc
+ * @author wangli
+ * @Date: 2020/3/14 21:30
  */
 @Component
 public class BlogPipeline implements Pipeline {
@@ -26,6 +27,4 @@ public class BlogPipeline implements Pipeline {
             blogService.add(blog);
         }
     }
-
-
 }
