@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/css/blog.css">
 <script src="/js/jquery-2.1.3.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-paginator.js"></script>
 
 <script>
 	var _hmt = _hmt || [];
@@ -56,9 +57,10 @@
 
 			<div>
 				<nav>
-					<ul class="pagination pagination-sm">
+					<#--<ul class="pagination pagination-sm">
 						${pageCode}
-					</ul>
+					</ul>-->
+					<div id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>
 				</nav>
 			</div>
 		</div>
@@ -86,4 +88,48 @@
 	<#include "common/foot.html" />
 </div>
 </body>
+<script>
+    $('#pageLimit').bootstrapPaginator({
+        currentPage: "${qo.page!1}",//当前页。
+        totalPages: "${blogs.totalPage!10}",//总页数。
+        size:"normal",//应该是页眉的大小。
+        bootstrapMajorVersion: 3,//bootstrap的版本要求。
+        alignment:"right",
+        numberOfPages:8,//显示的页数
+        itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
+            switch (type) {
+                case "first": return "首页";
+                case "prev": return "上一页";
+                case "next": return "下一页";
+                case "last": return "末页";
+                case "page": return page;
+            }
+        },
+        onPageClicked: function (event, originalEvent, type, page) {//给每个页眉绑定一个事件，其实就是ajax请求，其中page变量为当前点击的页上的数字。
+            /*$.ajax({
+                url:'',
+                type:'get',
+                data:{},
+                dataType:'JSON',
+                success:function (callback) {
+
+                }
+            })*/
+            var url = "/index?page="+page;
+			var keyword = "${qo.keyWord!""}"
+			var typeId = ${qo.typeId!0};
+			console.log(keyword);
+			console.log(typeId);
+            if(keyword && keyword!=""){
+            	url += "&keyWord="+keyword;
+			}
+            if(typeId>0){
+				url += "&typeId="+typeId;
+			}
+			console.log(url);
+            window.location.href=url;
+        }
+    });
+
+</script>
 </html>
