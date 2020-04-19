@@ -50,10 +50,10 @@
                         <br/>
                     </p>
                     <p>
-                        后台使用SpringBoot+Mybatis-plus架构
+                        后台使用SpringBoot+Mybatis-plus架构;
                     </p>
                     <p>
-                        爬虫使用WebMagic框架爬取数据
+                        使用WebMagic框架爬取数据;
                     </p>
                     <p>
                         采用Mysql数据库；
