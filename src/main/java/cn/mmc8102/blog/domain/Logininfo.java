@@ -3,6 +3,8 @@ package cn.mmc8102.blog.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * 用户登录信息
  * @author 16282
@@ -10,7 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class Logininfo {
+public class Logininfo implements Serializable {
 	/**
 	 * 账号状态 0.正常 1.锁定
 	 */

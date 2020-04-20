@@ -8,7 +8,6 @@ import cn.mmc8102.blog.query.PageResult;
 import cn.mmc8102.blog.service.IBlogService;
 import cn.mmc8102.blog.service.IBlogTypeService;
 import cn.mmc8102.blog.service.ILogService;
-import cn.mmc8102.blog.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +52,6 @@ public class IndexController {
         PageResult blogs = blogService.query(qo);
         model.addAttribute("types", blogTypeService.queryForList());
         model.addAttribute("blogs", blogs);
-        model.addAttribute("pageCode", PageUtil.genPagination(request.getContextPath()+"/index", blogs.getTotal(), blogs.getCurrentPage(), blogs.getPageSize()));
         return "index";
     }
 

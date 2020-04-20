@@ -4,9 +4,11 @@ import cn.mmc8102.blog.domain.Log;
 import cn.mmc8102.blog.domain.Logininfo;
 import cn.mmc8102.blog.service.ILogService;
 import cn.mmc8102.blog.service.ILogininfoService;
+import cn.mmc8102.blog.util.Constant;
 import cn.mmc8102.blog.util.JSONResult;
 import cn.mmc8102.blog.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +28,8 @@ public class LoginController {
     private ILogininfoService logininfoService;
     @Autowired
     private ILogService logService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 登陆
@@ -38,7 +42,17 @@ public class LoginController {
     @ResponseBody
     public JSONResult login(String username, String password, HttpServletRequest request) {
         JSONResult json = new JSONResult();
-        Logininfo current = this.logininfoService.login(username, password);
+        Logininfo current = null;
+        //使用redis缓存
+        String key = Constant.BLOGREADREDISKEY + username;
+        if(redisTemplate.hasKey(key)){
+            current = (Logininfo)redisTemplate.opsForValue().get(key);
+        }else{
+            current = this.logininfoService.login(username, password);
+            if(current != null){
+                redisTemplate.opsForValue().set(key, current);
+            }
+        }
         Log log = new Log();
         if (current != null && current.getUserType() == Logininfo.USER_TYPE_MANAGER) {
             log.setStatus(Log.STATUS_SUCCESS);

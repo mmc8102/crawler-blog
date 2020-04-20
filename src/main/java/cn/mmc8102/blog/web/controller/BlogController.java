@@ -20,8 +20,6 @@ public class BlogController {
     private IBlogService blogService;
     @Autowired
     private IBlogTypeService blogTypeService;
-    //@Autowired
-    //private IReplyService replyService;
 
     /**
      * 帖子详情
@@ -31,10 +29,8 @@ public class BlogController {
      */
     @RequestMapping("query_detail/{id}")
     public String getById(@PathVariable("id") Long id, Model model){
-        Blog blog = blogService.getById(id);
         blogService.updateReadCount(id);
         model.addAttribute("blog", blogService.getById(id));
-        //model.addAttribute("replys",replyService.queryByPid(id));
         model.addAttribute("types", blogTypeService.queryForList());
         model.addAttribute("pageCode", this.genUpAndDownPageCode(blogService.getById(id-1), blogService.getById(id+1)));
         return "blog_detail";
