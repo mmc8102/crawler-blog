@@ -31,7 +31,10 @@ public class BlogServiceImpl implements IBlogService {
                 .eq("update_time", blog.getUpdateTime());
         Blog info = blogMapper.selectOne(wrapper);
         if(info == null){
-            return blogMapper.insert(blog);
+            try{
+                return blogMapper.insert(blog);
+            }catch (Exception e){
+            }
         }
         return 0;
         //判断info是否为空,为空就新增,不为空就更新
@@ -46,7 +49,9 @@ public class BlogServiceImpl implements IBlogService {
     @Override
     public Blog getById(Long id) {
         Blog blog = blogMapper.queryById(id);
-        getReadCount(blog);
+        if(blog != null){
+            getReadCount(blog);
+        }
         return blog;
     }
 
