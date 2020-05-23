@@ -6,10 +6,12 @@ import cn.mmc8102.blog.mapper.LogininfoMapper;
 import cn.mmc8102.blog.mapper.UserinfoMapper;
 import cn.mmc8102.blog.query.PageResult;
 import cn.mmc8102.blog.service.IUserinfoService;
+import cn.mmc8102.blog.util.Constant;
 import cn.mmc8102.blog.util.MD5;
 import cn.mmc8102.blog.util.UserContext;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class UserinfoServiceImpl implements IUserinfoService {
     private UserinfoMapper userinfoMapper;
     @Autowired
     private LogininfoMapper logininfoMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public int add(Userinfo ui) {
@@ -65,7 +69,8 @@ public class UserinfoServiceImpl implements IUserinfoService {
         wrapper.set("password", current.getPassword())
                 .eq("id",current.getId());
         logininfoMapper.update(current, wrapper);
-        //删除当前用户登录信息
+        //清除缓存,删除当前用户登录信息
+        redisTemplate.delete(Constant.BLOGREADREDISKEY + UserContext.getCurrent().getUsername());
         UserContext.getSession().removeAttribute(UserContext.USER_IN_SESSION);
     }
 }
