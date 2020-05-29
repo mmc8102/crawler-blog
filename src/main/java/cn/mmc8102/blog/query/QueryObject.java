@@ -12,7 +12,7 @@ public class QueryObject{
 	/*private Integer currentPage = 1;
 	private Integer pageSize = 10;*/
 	private Integer page = 1;
-	private Integer rows = 3;
+	private Integer rows = 10;
 
 	public int getStart() {
 		if (page == null) {
